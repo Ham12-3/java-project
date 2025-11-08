@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${AUTH_SERVICE_DATASOURCE_URL:jdbc:oracle:thin:@localhost:1521/FREEPDB1}
+    username: ${AUTH_SERVICE_DATASOURCE_USERNAME:auth_service}
+    password: ${AUTH_SERVICE_DATASOURCE_PASSWORD:auth_service}
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+  liquibase:
+    change-log: classpath:infrastructure/liquibase/auth-service/db.changelog-master.yaml
+
+auth:
+  jwt:
+    secret: ${AUTH_SERVICE_JWT_SECRET:change-me-change-me-change-me-change-me}
+    expiration-minutes: ${AUTH_SERVICE_JWT_EXPIRATION_MINUTES:60}
