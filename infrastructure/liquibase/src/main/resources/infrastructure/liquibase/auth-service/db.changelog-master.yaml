@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - logicalFilePath: infrastructure/liquibase/auth-service/db.changelog-master.yaml
+  - include:
+      relativeToChangelogFile: true
+      file: changelog-0001-create-auth-users.yaml

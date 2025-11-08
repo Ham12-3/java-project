@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>fintech-platform</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>liquibase-resources</artifactId>
+    <name>Liquibase Resources</name>
+    <description>Shared Liquibase changelog bundle.</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <liquibase.url>jdbc:oracle:thin:@localhost:1521/FREEPDB1</liquibase.url>
+        <liquibase.username>auth_service</liquibase.username>
+        <liquibase.password>auth_service</liquibase.password>
+        <liquibase.changelog>src/main/resources/infrastructure/liquibase/auth-service/db.changelog-master.yaml</liquibase.changelog>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>init</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <version>4.27.0</version>
+                        <configuration>
+                            <changeLogFile>${liquibase.changelog}</changeLogFile>
+                            <url>${liquibase.url}</url>
+                            <username>${liquibase.username}</username>
+                            <password>${liquibase.password}</password>
+                            <driver>oracle.jdbc.OracleDriver</driver>
+                            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                            <logging>info</logging>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>update</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.liquibase</groupId>
+                                <artifactId>liquibase-core</artifactId>
+                                <version>4.27.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.oracle.database.jdbc</groupId>
+                                <artifactId>ojdbc11</artifactId>
+                                <version>23.3.0.23.09</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

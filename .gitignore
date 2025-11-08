@@ -11,7 +11,9 @@
 /.project
 /.settings/
 /node_modules/
+**/node_modules/
 /dist/
+**/dist/
 /.angular/cache/
 /.vscode/
 .DS_Store

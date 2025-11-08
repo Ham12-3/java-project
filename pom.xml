@@ -19,6 +19,7 @@
     <name>Fintech Platform</name>
 
     <modules>
+        <module>infrastructure/liquibase</module>
         <module>services/auth-service</module>
     </modules>
 

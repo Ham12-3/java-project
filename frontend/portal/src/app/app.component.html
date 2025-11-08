@@ -1,0 +1,18 @@
+<main class="shell">
+  <section class="hero">
+    <p class="eyebrow">Blueprint UI</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">
+      Angular workspace placeholder for the future operator and customer portal. Hook up real API clients
+      once the backend services and contracts are ready.
+    </p>
+    <a class="cta" routerLink="/">Explore Roadmap</a>
+  </section>
+
+  <section class="grid">
+    <article class="card" *ngFor="let section of sections">
+      <h2>{{ section.name }}</h2>
+      <p>{{ section.description }}</p>
+    </article>
+  </section>
+</main>

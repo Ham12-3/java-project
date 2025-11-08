@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0001-create-auth-users
+      author: codex
+      changes:
+        - createTable:
+            tableName: auth_users
+            remarks: Stores registered platform users with optional MFA metadata.
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR2(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR2(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password_hash
+                  type: VARCHAR2(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mfa_enabled
+                  type: NUMBER(1,0)
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mfa_secret
+                  type: VARCHAR2(255)
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: auth_users
+            columnNames: username
+            constraintName: uq_auth_users_username
+        - addUniqueConstraint:
+            tableName: auth_users
+            columnNames: email
+            constraintName: uq_auth_users_email

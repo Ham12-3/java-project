@@ -1,0 +1,50 @@
+.shell {
+  min-height: 100vh;
+  padding: 4rem clamp(1rem, 4vw, 5rem);
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.hero {
+  text-align: left;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  color: #475569;
+  margin: 0 0 0.5rem;
+}
+
+.lede {
+  color: #475569;
+  max-width: 640px;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 1.5rem;
+  text-decoration: none;
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.09);
+}

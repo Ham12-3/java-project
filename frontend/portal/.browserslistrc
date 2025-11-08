@@ -1,0 +1,7 @@
+# This file is used by the Angular CLI to enable autoprefixing and differential loading.
+last 1 Chrome version
+last 1 Firefox version
+last 2 Edge major versions
+last 2 Safari major versions
+Firefox ESR
+not IE 11
