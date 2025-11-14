@@ -1,0 +1,183 @@
+.profile-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.identity h1 {
+  margin: 0.25rem 0;
+}
+
+.identity p {
+  margin: 0;
+  color: #475569;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.pill {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.pill.accent {
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #1d4ed8;
+}
+
+.dates {
+  display: flex;
+  gap: 1rem;
+}
+
+.dates div {
+  background: rgba(15, 23, 42, 0.04);
+  padding: 0.75rem 1rem;
+  border-radius: 0.9rem;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.panel header {
+  margin-bottom: 1rem;
+}
+
+.panel header h2 {
+  margin: 0;
+}
+
+.panel header p {
+  margin: 0;
+  color: #475569;
+}
+
+form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+form input,
+form textarea,
+form select {
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  border-radius: 0.65rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+}
+
+.documents {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.documents li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.documents strong {
+  margin: 0;
+}
+
+.documents p {
+  margin: 0;
+  color: #475569;
+}
+
+.doc-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.doc-meta button {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.document-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.document-form button {
+  grid-column: 1 / -1;
+}
+
+.audit ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.audit li {
+  border-left: 3px solid rgba(59, 130, 246, 0.35);
+  padding-left: 0.75rem;
+}
+
+.audit .action {
+  font-weight: 700;
+}
+
+.back-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+.loading {
+  text-align: center;
+}
+
+.account {
+  margin-bottom: 1.5rem;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}

@@ -1,0 +1,29 @@
+<section class="panel">
+  <div class="form-header">
+    <h2>Create account</h2>
+    <p>Invite partners or internal operators.</p>
+  </div>
+  <form (ngSubmit)="submit()" #registerForm="ngForm">
+    <div class="field">
+      <label>Username</label>
+      <input name="username" [(ngModel)]="form.username" required />
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input name="email" type="email" [(ngModel)]="form.email" required />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" [(ngModel)]="form.password" required />
+    </div>
+    <label class="checkbox">
+      <input type="checkbox" name="mfa" [(ngModel)]="form.mfaEnabled" />
+      Enforce multi-factor authentication
+    </label>
+    <button type="submit" [disabled]="registerForm.invalid || submitting">Register</button>
+  </form>
+  <p class="inline-links">
+    <span>Already onboard?</span>
+    <a routerLink="/auth/login">Go to sign in</a>
+  </p>
+</section>

@@ -1,0 +1,43 @@
+<section class="panel customer-list">
+  <header class="list-header">
+    <div>
+      <h2>Pipeline</h2>
+      <p>{{ customers.length }} customer{{ customers.length === 1 ? '' : 's' }} in review</p>
+    </div>
+    <button type="button" (click)="load()" [disabled]="loading">Refresh</button>
+  </header>
+  <div class="table-wrapper" *ngIf="customers.length; else emptyState">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>
+            <strong>{{ customer.fullName }}</strong>
+            <div class="subtle">{{ customer.createdAt | date:'medium' }}</div>
+          </td>
+          <td>{{ customer.email }}</td>
+          <td><span class="status-pill" [class]="'status-pill ' + customer.status.toLowerCase()">{{ customer.status }}</span></td>
+          <td>{{ customer.notes || '—' }}</td>
+          <td class="actions">
+            <button type="button" *ngFor="let status of statuses"
+                    [disabled]="customer.status === status"
+                    (click)="updateStatus(customer, status)">
+              {{ status }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #emptyState>
+    <p>No customers yet. Use the onboarding form to create the first record.</p>
+  </ng-template>
+</section>

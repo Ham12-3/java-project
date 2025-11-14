@@ -1,0 +1,22 @@
+<section class="panel status-grid">
+  <article class="card status good" *ngIf="(lastToken$ | async) as lastToken" [hidden]="!lastToken">
+    <h3>Latest token</h3>
+    <code>{{ lastToken }}</code>
+  </article>
+
+  <article class="card status info" *ngIf="(resetMessage$ | async) as resetMessage" [hidden]="!resetMessage">
+    <h3>Status</h3>
+    <p>{{ resetMessage }}</p>
+  </article>
+
+  <article class="card status info" *ngIf="(resetToken$ | async) as resetToken" [hidden]="!resetToken">
+    <h3>Dev reset token</h3>
+    <code>{{ resetToken }}</code>
+    <small>Tokens expire after 30 minutes.</small>
+  </article>
+
+  <article class="card status error" *ngIf="(lastError$ | async) as lastError" [hidden]="!lastError">
+    <h3>Last error</h3>
+    <p>{{ lastError }}</p>
+  </article>
+</section>

@@ -1,0 +1,176 @@
+<ng-container *ngIf="profile; else loadingState">
+  <section class="profile-hero card">
+    <div class="identity">
+      <button class="back-link" routerLink="/customers">← Back to directory</button>
+      <h1>{{ profile.summary.fullName }}</h1>
+      <p>{{ profile.summary.email }}</p>
+      <div class="hero-meta">
+        <span class="pill">{{ profile.summary.status }}</span>
+        <span class="pill accent">{{ profile.summary.verificationStatus }}</span>
+        <span class="pill">{{ profile.summary.country || 'No country' }}</span>
+        <span class="pill">{{ riskLabel() }}</span>
+      </div>
+    </div>
+    <div class="dates">
+      <div>
+        <p class="eyebrow">Submitted</p>
+        <strong>{{ profile.submittedAt ? (profile.submittedAt | date: 'medium') : 'Pending' }}</strong>
+      </div>
+      <div>
+        <p class="eyebrow">Approved</p>
+        <strong>{{ profile.approvedAt ? (profile.approvedAt | date: 'medium') : 'Pending' }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="account card">
+    <header>
+      <h2>Current Account</h2>
+      <p *ngIf="hasAccount(); else pendingAccount">GBP balances and overdraft allowances.</p>
+      <ng-template #pendingAccount>
+        <p>Account will be created once onboarding is approved.</p>
+      </ng-template>
+    </header>
+    <div *ngIf="hasAccount(); else noAccount" class="account-grid">
+      <div>
+        <p class="eyebrow">Account number</p>
+        <strong>{{ accountNumber() }}</strong>
+      </div>
+      <div>
+        <p class="eyebrow">Sort code</p>
+        <strong>{{ profile?.account?.sortCode }}</strong>
+      </div>
+      <div>
+        <p class="eyebrow">Balance</p>
+        <strong>£{{ profile?.account?.balance | number:'1.2-2' }}</strong>
+      </div>
+      <div>
+        <p class="eyebrow">Overdraft limit</p>
+        <strong>£{{ profile?.account?.overdraftLimit | number:'1.2-2' }}</strong>
+      </div>
+      <div>
+        <p class="eyebrow">Available</p>
+        <strong>£{{ profile?.account?.availableBalance | number:'1.2-2' }}</strong>
+      </div>
+    </div>
+    <ng-template #noAccount>
+      <p>No account yet.</p>
+    </ng-template>
+  </section>
+
+  <section class="profile-layout">
+    <article class="panel">
+      <header>
+        <h2>KYC Summary</h2>
+        <p>Maintain enrichment data and verification status.</p>
+      </header>
+      <form (ngSubmit)="saveProfile()">
+        <div class="form-grid">
+          <label>
+            Company name
+            <input [(ngModel)]="profileForm.companyName" name="companyName" />
+          </label>
+          <label>
+            Country
+            <input [(ngModel)]="profileForm.country" name="country" />
+          </label>
+          <label>
+            Industry
+            <input [(ngModel)]="profileForm.industry" name="industry" />
+          </label>
+          <label>
+            Risk score
+            <input type="number" min="0" max="100" [(ngModel)]="profileForm.riskScore" name="riskScore" />
+          </label>
+          <label>
+            Verification status
+            <select [(ngModel)]="profileForm.verificationStatus" name="verificationStatus">
+              <option *ngFor="let status of verificationStatuses" [value]="status">{{ status }}</option>
+            </select>
+          </label>
+          <label>
+            Updated by
+            <input [(ngModel)]="profileForm.updatedBy" name="updatedBy" placeholder="e.g. FinOps bot" />
+          </label>
+        </div>
+        <label>
+          Notes
+          <textarea [(ngModel)]="profileForm.notes" name="notes" rows="4" placeholder="Analyst remarks..."></textarea>
+        </label>
+        <button type="submit" [disabled]="savingProfile">Save changes</button>
+      </form>
+    </article>
+
+    <article class="panel">
+      <header>
+        <h2>Documents</h2>
+        <p>Metadata for uploaded KYC/KYB documents.</p>
+      </header>
+      <ul class="documents" *ngIf="profile.documents.length; else docEmpty">
+        <li *ngFor="let doc of profile.documents">
+          <div>
+            <strong>{{ doc.name }}</strong>
+            <p>{{ doc.type || 'Unknown type' }}</p>
+            <small *ngIf="doc.url">URL: {{ doc.url }}</small>
+          </div>
+          <div class="doc-meta">
+            <span class="pill">{{ doc.status }}</span>
+            <small>{{ doc.uploadedAt | date: 'short' }}</small>
+            <button type="button" *ngIf="doc.downloadable" (click)="downloadDocument(doc.id)">Download</button>
+          </div>
+        </li>
+      </ul>
+      <ng-template #docEmpty>
+        <p>No documents yet.</p>
+      </ng-template>
+      <form class="document-form" (ngSubmit)="addDocument()">
+        <label>
+          Name
+          <input [(ngModel)]="documentForm.name" name="docName" required />
+        </label>
+        <label>
+          Type
+          <input [(ngModel)]="documentForm.type" name="docType" />
+        </label>
+        <label>
+          URL
+          <input [(ngModel)]="documentForm.url" name="docUrl" placeholder="https://storage/doc.pdf" />
+        </label>
+        <label>
+          Status
+          <select [(ngModel)]="documentForm.status" name="docStatus">
+            <option *ngFor="let status of documentStatuses" [value]="status">{{ status }}</option>
+          </select>
+        </label>
+        <label>
+          Uploaded by
+          <input [(ngModel)]="documentForm.uploadedBy" name="uploadedBy" />
+        </label>
+        <button type="submit" [disabled]="addingDocument || !documentForm.name">Attach document</button>
+      </form>
+    </article>
+  </section>
+
+  <section class="panel audit">
+    <header>
+      <h2>Audit Timeline</h2>
+      <p>Latest changes to verification or documents.</p>
+    </header>
+    <ul *ngIf="profile.auditLog.length; else auditEmpty">
+      <li *ngFor="let audit of profile.auditLog">
+        <span class="action">{{ audit.action }}</span>
+        <p>{{ audit.notes || 'No notes' }}</p>
+        <small>by {{ audit.actor || 'system' }} · {{ audit.createdAt | date: 'medium' }}</small>
+      </li>
+    </ul>
+    <ng-template #auditEmpty>
+      <p>No audit entries yet.</p>
+    </ng-template>
+  </section>
+</ng-container>
+
+<ng-template #loadingState>
+  <section class="card loading">
+    <p>Loading profile...</p>
+  </section>
+</ng-template>

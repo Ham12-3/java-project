@@ -80,4 +80,8 @@ public class AuthUser {
         this.mfaEnabled = true;
         this.mfaSecret = mfaSecret;
     }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 }

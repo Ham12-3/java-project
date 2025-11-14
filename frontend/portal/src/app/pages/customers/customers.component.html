@@ -1,0 +1,47 @@
+<section class="directory card">
+  <header class="directory-header">
+    <div>
+      <p class="eyebrow">Customer Profiles</p>
+      <h2>Directory</h2>
+      <p class="lede">{{ filtered.length }} record{{ filtered.length === 1 ? '' : 's' }} after filters</p>
+    </div>
+    <div class="filters">
+      <label>
+        Status
+        <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+          <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+      </label>
+      <label>
+        Risk
+        <select [(ngModel)]="riskFilter" (change)="applyFilters()">
+          <option *ngFor="let bucket of riskBuckets" [value]="bucket">{{ bucket }}</option>
+        </select>
+      </label>
+      <button type="button" (click)="load()" [disabled]="loading">Refresh</button>
+    </div>
+  </header>
+
+  <div class="grid" *ngIf="filtered.length; else emptyState">
+    <a class="customer-card" *ngFor="let customer of filtered" [routerLink]="['/customers', customer.id]">
+      <div class="card-head">
+        <h3>{{ customer.fullName }}</h3>
+        <span class="status-pill" [class]="'status-pill ' + customer.status.toLowerCase()">{{ customer.status }}</span>
+      </div>
+      <p class="company">{{ customer.companyName || '—' }}</p>
+      <div class="meta">
+        <span class="pill">{{ customer.country || 'No country' }}</span>
+        <span class="pill" [class]="riskBucket(customer).toLowerCase()">{{ riskLabel(customer) }}</span>
+        <span class="pill muted">{{ customer.verificationStatus || 'Not started' }}</span>
+      </div>
+      <div class="footer">
+        <span>Created {{ customer.createdAt | date: 'mediumDate' }}</span>
+        <span class="chevron">View →</span>
+      </div>
+    </a>
+  </div>
+
+  <ng-template #emptyState>
+    <p class="empty">No customers found for this filter (yet).</p>
+  </ng-template>
+</section>

@@ -1,0 +1,21 @@
+<section class="panel">
+  <div class="form-header">
+    <h2>Customer onboarding</h2>
+    <p>Create an intake record and capture optional notes.</p>
+  </div>
+  <form (ngSubmit)="submit()" #customerForm="ngForm">
+    <div class="field">
+      <label>Full name</label>
+      <input name="fullName" [(ngModel)]="form.fullName" required />
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input name="email" type="email" [(ngModel)]="form.email" required />
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea name="notes" [(ngModel)]="form.notes" rows="4" placeholder="Document KYB context or next steps"></textarea>
+    </div>
+    <button type="submit" [disabled]="customerForm.invalid || submitting">Add customer</button>
+  </form>
+</section>

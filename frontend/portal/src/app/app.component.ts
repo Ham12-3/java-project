@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PortalStateService } from './portal-state.service';
 
 @Component({
   selector: 'app-root',
@@ -6,23 +8,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  readonly title = 'FinTech Platform Portal';
   readonly sections = [
     {
-      name: 'Onboarding',
-      description: 'Track KYC applications and pending approvals.'
+      name: 'Authentication',
+      description: 'Provision trusted operators with MFA using SendGrid OTP delivery.'
     },
     {
-      name: 'Accounts',
-      description: 'Manage wallets, balances, and statements.'
+      name: 'Customer Onboarding',
+      description: 'Review KYC packs from the mobile app and advance customers with one click.'
     },
     {
-      name: 'Payments',
-      description: 'Initiate transfers and monitor settlement status.'
-    },
-    {
-      name: 'Fraud & Risk',
-      description: 'Review alerts, rules, and analytics insights.'
+      name: 'Operations Console',
+      description: 'Monitor GBP balances, audit events, and account lifecycle in real time.'
     }
   ];
+
+  readonly toast$: Observable<string> = this.portalState.toast$;
+
+  constructor(private readonly portalState: PortalStateService) {}
 }

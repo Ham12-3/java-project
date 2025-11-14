@@ -1,0 +1,25 @@
+<section class="panel">
+  <div class="form-header">
+    <h2>Sign in</h2>
+    <p>Access the console with MFA.</p>
+  </div>
+  <form (ngSubmit)="submit()" #loginForm="ngForm">
+    <div class="field">
+      <label>Username</label>
+      <input name="username" [(ngModel)]="form.username" required />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" [(ngModel)]="form.password" required />
+    </div>
+    <div class="field">
+      <label>MFA code (optional)</label>
+      <input name="mfa" [(ngModel)]="form.mfaCode" placeholder="123 456" />
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid || submitting">Login</button>
+  </form>
+  <p class="inline-links">
+    <a routerLink="/auth/register">Need an account?</a>
+    <a routerLink="/auth/forgot-password">Forgot password?</a>
+  </p>
+</section>

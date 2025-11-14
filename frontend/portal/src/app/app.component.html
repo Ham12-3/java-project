@@ -1,18 +1,68 @@
 <main class="shell">
-  <section class="hero">
-    <p class="eyebrow">Blueprint UI</p>
-    <h1>{{ title }}</h1>
-    <p class="lede">
-      Angular workspace placeholder for the future operator and customer portal. Hook up real API clients
-      once the backend services and contracts are ready.
-    </p>
-    <a class="cta" routerLink="/">Explore Roadmap</a>
-  </section>
+  <header class="masthead">
+    <nav class="top-nav">
+      <div class="brand">
+        <span class="logo-dot"></span>
+        <div>
+          <strong>FinTech Portal</strong>
+          <small>Operator workspace</small>
+        </div>
+      </div>
+      <ul>
+        <li><a routerLink="/auth/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">Auth</a></li>
+        <li><a routerLink="/onboarding/customer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Onboarding</a></li>
+        <li><a routerLink="/onboarding/pipeline" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Pipeline</a></li>
+        <li><a routerLink="/customers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Customers</a></li>
+        <li><a routerLink="/operations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Operations</a></li>
+        <li><a routerLink="/status" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Status</a></li>
+      </ul>
+    </nav>
 
-  <section class="grid">
-    <article class="card" *ngFor="let section of sections">
-      <h2>{{ section.name }}</h2>
+    <div class="hero card">
+      <p class="eyebrow">Operations HQ</p>
+      <h1>Halifax-grade visibility for every journey</h1>
+      <p class="lede">
+        Oversee customer onboarding, KYC decisions, and current-account activity with a single, resilient command
+        centre.
+      </p>
+      <div class="hero-meta">
+        <span class="tag">SOC 2 ready</span>
+        <span class="tag">MFA required</span>
+        <span class="tag">24/7 support</span>
+      </div>
+      <div class="hero-foot">
+        <div class="hero-pill">
+          <strong>2 min</strong>
+          <span>avg onboarding</span>
+        </div>
+        <div class="hero-pill">
+          <strong>£</strong>
+          <span>GBP-first accounts</span>
+        </div>
+        <div class="hero-pill">
+          <strong>24/7</strong>
+          <span>fraud monitoring</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a class="cta" routerLink="/customers">Browse customers</a>
+        <a class="ghost" routerLink="/operations">Operations console</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pillars" aria-label="Capabilities">
+    <article class="mini-card" *ngFor="let section of sections">
+      <h3>{{ section.name }}</h3>
       <p>{{ section.description }}</p>
     </article>
   </section>
+
+  <section class="page-container">
+    <router-outlet></router-outlet>
+  </section>
 </main>
+
+<div class="toast" *ngIf="(toast$ | async) as toast" [hidden]="!toast">
+  {{ toast }}
+</div>

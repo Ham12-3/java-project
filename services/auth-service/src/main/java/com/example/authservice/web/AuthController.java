@@ -1,5 +1,10 @@
 package com.example.authservice.web;
 
+
+import com.example.authservice.service.PasswordResetService;
+import com.example.authservice.web.dto.PasswordResetConfirmRequest;
+import com.example.authservice.web.dto.PasswordResetRequest;
+import java.util.Map;
 import com.example.authservice.domain.AuthUser;
 import com.example.authservice.service.JwtService;
 import com.example.authservice.service.MfaService;
@@ -26,13 +31,19 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final MfaService mfaService;
-
-    public AuthController(UserService userService, PasswordEncoder passwordEncoder, JwtService jwtService, MfaService mfaService) {
+    private final PasswordResetService passwordResetService;
+ public AuthController(UserService userService,
+                          PasswordEncoder passwordEncoder,
+                          JwtService jwtService,
+                          MfaService mfaService,
+                          PasswordResetService passwordResetService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.mfaService = mfaService;
+        this.passwordResetService = passwordResetService;
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -52,6 +63,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+
+
         AuthUser user = userService.findByUsername(request.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
@@ -66,6 +79,20 @@ public class AuthController {
         String token = jwtService.generateToken(user.getUsername());
         return ResponseEntity.ok(new LoginResponse(token));
     }
+
+
+     @PostMapping("/request-reset")
+    public ResponseEntity<Map<String, String>> requestReset(@Valid @RequestBody PasswordResetRequest request) {
+        String token = passwordResetService.requestReset(request.getEmail());
+        return ResponseEntity.ok(Map.of("status", "ok", "resetToken", token));
+    }
+
+    @PostMapping("/confirm-reset")
+    public ResponseEntity<Void> confirmReset(@Valid @RequestBody PasswordResetConfirmRequest request) {
+        passwordResetService.confirmReset(request.getToken(), request.getNewPassword());
+        return ResponseEntity.noContent().build();
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {

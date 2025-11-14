@@ -1,3 +1,6 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: auth-service
@@ -12,6 +15,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.OracleDialect
+  mail:
+    host: ${SMTP_HOST:}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${SMTP_AUTH:true}
+          starttls:
+            enable: ${SMTP_STARTTLS_ENABLE:true}
   liquibase:
     change-log: classpath:infrastructure/liquibase/auth-service/db.changelog-master.yaml
 
@@ -19,3 +33,7 @@ auth:
   jwt:
     secret: ${AUTH_SERVICE_JWT_SECRET:change-me-change-me-change-me-change-me}
     expiration-minutes: ${AUTH_SERVICE_JWT_EXPIRATION_MINUTES:60}
+
+mail:
+  from-address: ${MAIL_FROM_ADDRESS:no-reply@fintech-app.local}
+  from-name: ${MAIL_FROM_NAME:Fintech App}

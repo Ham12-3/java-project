@@ -1,0 +1,86 @@
+<section class="card ops-dashboard">
+  <header class="ops-header">
+    <div>
+      <p class="eyebrow">Operations Console</p>
+      <h1>Risk + onboarding snapshot</h1>
+      <p class="lede">Monitor onboarding throughput, analyst decisions, and the latest alerts.</p>
+    </div>
+    <button type="button" (click)="load()" [disabled]="loading">Refresh metrics</button>
+  </header>
+
+  <ng-container *ngIf="metrics; else emptyState">
+    <div class="metrics-grid">
+      <article class="metric-card" *ngFor="let entry of onboardingEntries()">
+        <p class="label">{{ entry[0] }}</p>
+        <strong>{{ entry[1] }}</strong>
+      </article>
+    </div>
+
+    <section class="streams">
+      <article class="panel">
+        <header>
+          <h2>Recent approvals</h2>
+          <p>Last 5 green lights</p>
+        </header>
+        <ul>
+          <li *ngFor="let event of metrics.recentApprovals">
+            <div>
+              <strong>{{ event.customerName }}</strong>
+              <small>{{ event.occurredAt | date: 'short' }}</small>
+            </div>
+            <span class="pill success">{{ event.status }}</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <header>
+          <h2>Recent rejections</h2>
+          <p>Last 5 denials</p>
+        </header>
+        <ul>
+          <li *ngFor="let event of metrics.recentRejections">
+            <div>
+              <strong>{{ event.customerName }}</strong>
+              <small>{{ event.occurredAt | date: 'short' }}</small>
+            </div>
+            <span class="pill danger">{{ event.status }}</span>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="panel alerts">
+      <header>
+        <h2>Alerts</h2>
+        <p>Triaged risk & fraud signals</p>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Severity</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let alert of metrics.alerts">
+            <td>{{ alert.id }}</td>
+            <td>{{ alert.type }}</td>
+            <td><span class="pill" [class]="alertClass(alert)">{{ alert.severity }}</span></td>
+            <td>{{ alert.description }}</td>
+            <td>{{ alert.status }}</td>
+            <td>{{ alert.createdAt | date: 'short' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </ng-container>
+</section>
+
+<ng-template #emptyState>
+  <p>No metrics yet. Run onboarding to populate data.</p>
+</ng-template>

@@ -4,6 +4,7 @@
 .mvn/wrapper/maven-wrapper.jar
 .mvn/
 .idea/
+**/.idea/
 *.iml
 *.class
 *.log
@@ -15,5 +16,18 @@
 /dist/
 **/dist/
 /.angular/cache/
+**/.angular/
 /.vscode/
+**/.vscode/
 .DS_Store
+.env
+
+# Flutter / Dart build artefacts
+frontend/fintech-mobile/.dart_tool/
+frontend/fintech-mobile/.flutter-plugins
+frontend/fintech-mobile/.flutter-plugins-dependencies
+frontend/fintech-mobile/.metadata
+frontend/fintech-mobile/build/
+**/.dart_tool/
+**/.gradle/
+**/build/
